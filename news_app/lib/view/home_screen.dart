@@ -9,7 +9,7 @@ import 'package:news_app/model/news_Headlines_Model.dart';
 import 'package:news_app/view/category_screen.dart';
 import 'package:news_app/view_model/news_view_model.dart';
 import 'package:provider/provider.dart';
-import 'details_screen.dart';
+import 'home_detail_screen.dart';
 
 class home_screen extends StatefulWidget {
   const home_screen({super.key});
@@ -145,11 +145,11 @@ class _home_screenState extends State<home_screen> {
                                     builder: (context, value, child) {
                                       return GestureDetector(
                                       onTap: (){
-                                        String url=snapshot.data!.articles![index].url.toString();
+                                         String url= snapshot.data!.articles![index].url.toString();
                                        
                                         value.addItem(index, name, url);
                                         
-                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const details_screen()));
+                                        Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const home_details_screen()));
                                       },
                                       child: SizedBox(
                                       child: Stack(

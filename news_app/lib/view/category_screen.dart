@@ -1,5 +1,5 @@
 
-//import 'dart:developer';
+import 'dart:developer';
 
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -8,28 +8,28 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:news_app/controller/news_detail_controller.dart';
 import 'package:news_app/model/categories_Model.dart';
+import 'package:news_app/view/category_detail_screen.dart';
 import 'package:news_app/view_model/news_view_model.dart';
 import 'package:provider/provider.dart';
-
-import 'details_screen.dart';
 import 'home_screen.dart';
 
 class category_screen extends StatefulWidget {
   const category_screen({super.key});
 
   @override
-  State<category_screen> createState() => _category_screenState();
+  State<category_screen> createState() => category_screenState();
 }
 
-class _category_screenState extends State<category_screen> {
+class category_screenState extends State<category_screen> {
   
 
   newsViewModel newsModel = newsViewModel();
   final format = DateFormat('MMMM dd');
-  String categoryName = 'general';
-  filterList? selectedValue;
+  static String categoryName = 'general';
+  static int indx=0;
+  //filterList? selectedValue;
 
-  List<String> btnCategories = [
+  static List<String> btnCategories = [
     'general',
     'Entertainment',
     'Health',
@@ -38,10 +38,12 @@ class _category_screenState extends State<category_screen> {
     'Technology'
   ];
 
+   
+
   
   @override
   Widget build(BuildContext context) {
-  
+   
     final width = MediaQuery.sizeOf(context).width * 1;
     final height = MediaQuery.sizeOf(context).height * 1;
     return Scaffold(
@@ -68,12 +70,14 @@ class _category_screenState extends State<category_screen> {
                       setState(() {
                         
                         categoryName = btnCategories[index];
+                        indx=index;
+
                        
                         
                       });
                     },
                     child: Padding(
-                      padding: const EdgeInsets.only(right: 12),
+                      padding:  EdgeInsets.only(right: width * .12),
                       child: Container(
                         decoration: BoxDecoration(
                         color:categoryName == btnCategories[index] ? Colors.blue : Colors.grey,
@@ -95,8 +99,11 @@ class _category_screenState extends State<category_screen> {
             Expanded(
               child: FutureBuilder<categoriesNewsModel>(
                 future: newsViewModel.fetchCategoriesNewsApi(categoryName),
+              
                 builder: (context, snapshot){
+                  log(categoryName);
                   if(snapshot.connectionState == ConnectionState.waiting){
+                    log(categoryName);
                     return const Center(
                       child: SpinKitCircle(
                         size: 50,
@@ -116,16 +123,14 @@ class _category_screenState extends State<category_screen> {
                             
                              return GestureDetector(
                                 onTap: (){
-                                  setState(() {
-                                        final url=snapshot.data!.articles![index].urlToImage.toString();
+                                  
+                                        final String url=snapshot.data!.articles![index].url.toString();
                                         String name=snapshot.data!.articles![index].source!.name.toString();
                                          
                                       value.addItem(index, name, url);
-                                  });
-
-
-                
-                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const details_screen()));
+                                
+                                
+                                          Navigator.pushReplacement(context, MaterialPageRoute(builder: (context)=> const category_detail_screen()));
                                         },
                                child: Container(
                                 margin:const EdgeInsets.only(bottom: 10),

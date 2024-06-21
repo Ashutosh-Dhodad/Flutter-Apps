@@ -13,14 +13,14 @@ import 'package:news_app/view_model/news_view_model.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'home_screen.dart';
 
-class details_screen extends StatefulWidget {
-  const details_screen({super.key});
+class home_details_screen extends StatefulWidget {
+  const home_details_screen({super.key});
 
   @override
-  State<details_screen> createState() => details_screenState();
+  State<home_details_screen> createState() => details_screenState();
 }
 
-class details_screenState extends State<details_screen> {
+class details_screenState extends State<home_details_screen> {
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +56,8 @@ class details_screenState extends State<details_screen> {
                           ),
                         );
                       }else{
+      
+                        
                         return 
                           SingleChildScrollView(
                             scrollDirection: Axis.vertical,
@@ -67,11 +69,9 @@ class details_screenState extends State<details_screen> {
                                 itemCount:1,
                                 itemBuilder: (context, index){
                                 //DateTime dateTime = DateTime.parse(snapshot.data!.articles![index].publishedAt.toString());
-                                  return Consumer<newsDetailProvider>(
+                                  return Consumer<newsDetailProvider?>(
                                     builder: (context, value, child) {
-                                      log(snapshot.data!.articles![newsProvider.selectedIndex].source!.name.toString());
-                                       log(snapshot.data!.articles![newsProvider.selectedIndex].publishedAt.toString());
-                                      log("${newsProvider.selectedIndex}");
+                                   log(snapshot.data!.articles![newsProvider.selectedIndex].urlToImage.toString());
                                       return GestureDetector(
                                       
                                       child: SizedBox(
@@ -87,7 +87,8 @@ class details_screenState extends State<details_screen> {
                                               child: ClipRRect(
                                                 
                                                 child: CachedNetworkImage(
-                                                  imageUrl: snapshot.data!.articles![newsProvider.selectedIndex].urlToImage.toString(),
+                                                  imageUrl:snapshot.data!.articles![newsProvider.selectedIndex].urlToImage.toString(),
+                                              
                                                 
                                                   fit: BoxFit.cover,
                                                   placeholder: (context, url) {
@@ -105,8 +106,6 @@ class details_screenState extends State<details_screen> {
                                             
                                           ),
 
-                                          
-                                              
                                            SizedBox(
                                                height: height * .7,
                                                
